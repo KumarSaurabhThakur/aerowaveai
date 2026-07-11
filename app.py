@@ -27,6 +27,8 @@ def live():
             data = response.json()
 
             if response.status_code == 200:
+                from datetime import timedelta, timezone
+
                 condition = data["weather"][0]["main"]
                 description = data["weather"][0]["description"].capitalize()
                 temp = data["main"]["temp"]
@@ -37,12 +39,13 @@ def live():
                 humidity = data["main"]["humidity"]
                 wind_speed = round(data["wind"]["speed"] * 3.6, 2)
                 visibility = data.get("visibility", 0) / 1000
-                sunrise = datetime.fromtimestamp(data["sys"]["sunrise"]).strftime(
-                    "%I:%M %p"
-                )
-                sunset = datetime.fromtimestamp(data["sys"]["sunset"]).strftime(
-                    "%I:%M %p"
-                )
+                tz_offset = timezone(timedelta(seconds=data["timezone"]))
+                sunrise = datetime.fromtimestamp(
+                    data["sys"]["sunrise"], tz=tz_offset
+                ).strftime("%I:%M %p")
+                sunset = datetime.fromtimestamp(
+                    data["sys"]["sunset"], tz=tz_offset
+                ).strftime("%I:%M %p")
 
                 lat = data["coord"]["lat"]
                 lon = data["coord"]["lon"]
