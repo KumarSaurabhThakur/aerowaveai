@@ -30,7 +30,7 @@ def live():
                 from datetime import timedelta, timezone
 
                 condition = data["weather"][0]["main"]
-                description = data["weather"][0]["description"].capitalize()
+                description = data["weather"][0]["description"].title()
                 temp = data["main"]["temp"]
                 feels_like = data["main"]["feels_like"]
                 temp_min = data["main"]["temp_min"]
